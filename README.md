@@ -8,11 +8,15 @@ Built with plain **HTML, CSS and JavaScript**, with no framework and no build st
 
 ## Live demo
 
-`<your-vercel-url>`
+https://movie-catalog-eosin-gamma.vercel.app
 
 Click **Testar com conta demo** to sign in without registering. The demo account is a regular `USER`.
 
 > **Note:** the API runs on Render's free plan and goes to sleep when idle. The first request can take about a minute, and the catalog stays empty until it wakes up.
+
+## Screenshot
+
+![Movie Catalog web app](docs/image.png)
 
 ## Features
 
