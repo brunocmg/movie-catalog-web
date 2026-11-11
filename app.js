@@ -66,6 +66,7 @@ function renderUser() {
   const logged = !!state.tokens;
   $('userName').textContent = logged ? state.user?.name || '' : '';
   $('loginBtn').classList.toggle('hidden', logged);
+  $('demoTopBtn').classList.toggle('hidden', logged);
   $('logoutBtn').classList.toggle('hidden', !logged);
   document.querySelectorAll('.auth-only').forEach((b) => b.classList.toggle('hidden', !logged));
 }
@@ -285,14 +286,20 @@ $('logoutBtn').onclick = async () => {
 $('authForm').onsubmit = submitAuth;
 $('authCancel').onclick = () => $('authDialog').close();
 $('authSwitch').onclick = () => openAuth(state.mode === 'login' ? 'register' : 'login');
-$('demoBtn').onclick = async () => {
+async function demoLogin() {
   try {
+    toast('Entrando na conta demo…');
     await login(cfg.DEMO_USER.email, cfg.DEMO_USER.password);
-    $('authDialog').close();
+    if ($('authDialog').open) $('authDialog').close();
     toast('Logado como conta demo');
     load();
-  } catch (e) { $('authError').textContent = e.message; }
-};
+  } catch (e) {
+    toast(e.message, true);
+    if ($('authDialog').open) $('authError').textContent = e.message;
+  }
+}
+$('demoBtn').onclick = demoLogin;
+$('demoTopBtn').onclick = demoLogin;
 $('apiBtn').onclick = () => {
   const v = prompt('URL base da API:', apiUrl());
   if (v) { LS.set('apiUrl', v.trim()); location.reload(); }
