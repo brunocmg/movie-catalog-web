@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movie Catalog</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🎬 Movie Catalog</h1>
+    <nav id="nav">
+      <button data-view="catalog" class="active">Catálogo</button>
+      <button data-view="watchlist" class="auth-only">Quero ver</button>
+      <button data-view="favorites" class="auth-only">Favoritos</button>
+      <button data-view="ratings" class="auth-only">Minhas notas</button>
+    </nav>
+    <div class="user">
+      <span id="userName"></span>
+      <button id="loginBtn">Entrar</button>
+      <button id="logoutBtn" class="hidden">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="filters" class="filters">
+      <input id="q" type="search" placeholder="Buscar por nome…">
+      <select id="type">
+        <option value="">Filmes e séries</option>
+        <option value="MOVIE">Filmes</option>
+        <option value="SERIES">Séries</option>
+      </select>
+      <select id="genre"><option value="">Todos os gêneros</option></select>
+      <select id="sort">
+        <option value="id:asc">Mais antigos no catálogo</option>
+        <option value="createdAt:desc">Adicionados recentemente</option>
+        <option value="name:asc">Nome (A–Z)</option>
+        <option value="year:desc">Ano (mais novo)</option>
+        <option value="year:asc">Ano (mais antigo)</option>
+      </select>
+    </section>
+
+    <div id="status" class="status"></div>
+    <div id="grid" class="grid"></div>
+    <div class="pager">
+      <button id="prev">← Anterior</button>
+      <span id="pageInfo"></span>
+      <button id="next">Próxima →</button>
+    </div>
+  </main>
+
+  <footer>
+    <a id="docsLink" href="#" target="_blank" rel="noopener">Documentação da API (Swagger)</a>
+    · <button id="apiBtn" class="link">Alterar URL da API</button>
+  </footer>
+
+  <!-- Detalhe do título -->
+  <dialog id="detail"></dialog>
+
+  <!-- Login / cadastro -->
+  <dialog id="authDialog">
+    <form id="authForm" method="dialog">
+      <h2 id="authTitle">Entrar</h2>
+      <label id="nameRow" class="hidden">Nome <input id="aName" autocomplete="name"></label>
+      <label>E-mail <input id="aEmail" type="email" required autocomplete="email"></label>
+      <label>Senha <input id="aPass" type="password" required minlength="6" autocomplete="current-password"></label>
+      <p id="authError" class="error"></p>
+      <div class="row">
+        <button type="submit" class="primary" id="authSubmit">Entrar</button>
+        <button type="button" id="authCancel">Cancelar</button>
+      </div>
+      <p class="muted"><button type="button" class="link" id="authSwitch">Criar uma conta</button></p>
+      <hr>
+      <p class="muted">Recrutador? Teste sem cadastro:</p>
+      <button type="button" id="demoBtn">Entrar com conta demo</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
