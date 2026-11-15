@@ -33,9 +33,9 @@
       </select>
       <select id="genre"><option value="">Todos os gêneros</option></select>
       <select id="sort">
+        <option value="name:asc">Nome (A–Z)</option>
         <option value="id:asc">Mais antigos no catálogo</option>
         <option value="createdAt:desc">Adicionados recentemente</option>
-        <option value="name:asc">Nome (A–Z)</option>
         <option value="year:desc">Ano (mais novo)</option>
         <option value="year:asc">Ano (mais antigo)</option>
       </select>
@@ -45,7 +45,7 @@
     <div id="grid" class="grid"></div>
     <div class="pager">
       <button id="prev">← Anterior</button>
-      <span id="pageInfo"></span>
+      <span id="pages" class="pages"></span>
       <button id="next">Próxima →</button>
     </div>
   </main>

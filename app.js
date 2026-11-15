@@ -142,9 +142,38 @@ async function load() {
   }
   const page = Math.floor(state.offset / size) + 1;
   const pages = Math.max(1, Math.ceil(state.total / size));
-  $('pageInfo').textContent = `Página ${page} de ${pages}`;
+  renderPages(page, pages);
   $('prev').disabled = state.offset === 0;
   $('next').disabled = state.offset + size >= state.total;
+}
+
+// ex.: 1 … 4 5 [6] 7 8 … 20
+function pageItems(page, pages) {
+  const keep = new Set([1, pages]);
+  for (let i = page - 2; i <= page + 2; i++) if (i >= 1 && i <= pages) keep.add(i);
+  const sorted = [...keep].sort((a, b) => a - b);
+  const out = [];
+  sorted.forEach((n, i) => {
+    if (i && n - sorted[i - 1] > 1) out.push('…');
+    out.push(n);
+  });
+  return out;
+}
+
+function renderPages(page, pages) {
+  $('pages').replaceChildren(...pageItems(page, pages).map((n) => {
+    if (n === '…') return el('span', { className: 'gap' }, '…');
+    const b = el('button', { className: n === page ? 'active' : '', type: 'button', title: `Página ${n}` }, String(n));
+    if (n === page) b.setAttribute('aria-current', 'page');
+    else b.onclick = () => goToPage(n);
+    return b;
+  }));
+}
+
+function goToPage(n) {
+  state.offset = (n - 1) * cfg.PAGE_SIZE;
+  load();
+  window.scrollTo(0, 0);
 }
 
 function setView(view) {

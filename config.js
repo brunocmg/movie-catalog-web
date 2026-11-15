@@ -4,5 +4,6 @@ window.CONFIG = {
   API_URL: "https://movie-catalog-api-54m7.onrender.com/",
   // Conta de demonstração (role USER), criada em produção via POST /users.
   DEMO_USER: { email: "demo@email.com", password: "demo1234" },
-  PAGE_SIZE: 12,
+  // 60 divide certo em 5, 4, 3, 2 e 1 colunas (sem linha incompleta). A API aceita até 100.
+  PAGE_SIZE: 60,
 };
