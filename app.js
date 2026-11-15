@@ -111,6 +111,10 @@ function card(title) {
   return c;
 }
 
+const skeleton = () => el('div', { className: 'card skeleton', 'aria-hidden': 'true' },
+  el('div', { className: 'poster' }),
+  el('div', { className: 'info' }, el('div', { className: 'name' }, ' '), el('div', { className: 'meta' }, ' ')));
+
 async function load() {
   const size = cfg.PAGE_SIZE;
   const p = new URLSearchParams({ limit: size, offset: state.offset });
@@ -128,7 +132,11 @@ async function load() {
   }
 
   $('status').textContent = 'Carregando…';
-  $('grid').replaceChildren();
+  $('grid').replaceChildren(...Array.from({ length: size }, skeleton));
+  // plano free do Render: a primeira chamada pode levar ~1 min para acordar o servidor
+  const slow = setTimeout(() => {
+    $('status').textContent = 'Acordando o servidor… a primeira visita pode levar até 1 minuto.';
+  }, 4000);
   try {
     const { data, meta } = await api(`${path}?${p}`, { auth: state.view !== 'catalog' });
     state.total = meta.total;
@@ -137,8 +145,11 @@ async function load() {
     $('grid').replaceChildren(...titles.map(card));
     $('status').textContent = titles.length ? `${meta.total} resultado(s)` : 'Nada por aqui ainda.';
   } catch (e) {
+    $('grid').replaceChildren();
     $('status').textContent = e.message;
     state.total = 0;
+  } finally {
+    clearTimeout(slow);
   }
   const page = Math.floor(state.offset / size) + 1;
   const pages = Math.max(1, Math.ceil(state.total / size));
